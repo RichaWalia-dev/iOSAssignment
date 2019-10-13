@@ -29,11 +29,11 @@ class ArticleCellViewModel {
     }
     
     private func configureOutput() {
-        title = dataSource.title ?? ""
-        website = dataSource.website ?? ""
-        authors = dataSource.authors ?? ""
-        content = dataSource.content ?? ""
-        imageUrl = dataSource.imageUrl ?? ""
-        date = dataSource.date?.toDate() ?? Date()
+        title = dataSource.title
+        website = dataSource.website
+        authors = dataSource.authors
+        content = dataSource.content
+        imageUrl = dataSource.imageUrl
+        date = dataSource.date.toDate()
     }
 }

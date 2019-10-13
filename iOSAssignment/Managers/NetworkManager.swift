@@ -21,7 +21,7 @@ class NetworkManager {
         self.imageCache = NSCache()
     }
     
-    func getFeeds(completion: @escaping (_ feedData: Feed?, _ error: Error? ) -> Void) {
+    func getFeeds(completion: @escaping (_ title: String?, _ error: Error? ) -> Void) {
         guard let url = URL(string: Constants.url) else {
             return
         }
@@ -35,7 +35,14 @@ class NetworkManager {
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 do {
                     let feed: Feed = try decoder.decode(Feed.self, from: data)
-                    completion(feed, nil)
+                   // DispatchQueue.global(qos: .background).async {
+                        DBManager.shared.addData(feed: feed, completion: { isSaved in
+                           // DispatchQueue.main.async {
+                                completion(feed.title, nil)
+                           // }
+                        })
+                   // }
+                    
                 } catch {
                     print("JSON error: \(error.localizedDescription)")
                     completion(nil,nil)

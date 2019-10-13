@@ -7,28 +7,31 @@
 //
 
 import Foundation
+import Realm
+import RealmSwift
 
-struct Feed : Codable
+@objcMembers class Feed: Object, Codable
 {
-    var title : String?
-    var articles : [Article]?
+    dynamic var title: String = ""
+    dynamic var articles = RealmSwift.List<Article>()
 }
 
-struct Article : Codable
+@objcMembers class Article: Object, Codable
 {
-    var title : String?
-    var website : String?
-    var authors : String?
-    var date : String?
-    var content : String?
-    var tags : [Tag]?
-    var imageUrl: String?
+    dynamic var title: String = ""
+    dynamic var website: String = ""
+    dynamic var authors: String = ""
+    dynamic var date: String = ""
+    dynamic var content: String = ""
+    dynamic var tags = RealmSwift.List<Tag>()
+    dynamic var imageUrl: String = ""
 }
 
-struct Tag : Codable
+@objcMembers class Tag: Object, Codable
 {
-    var id : Int?
-    var label : String?
+    dynamic var id: Int = 0
+    dynamic var label: String = ""
 }
+
 
 

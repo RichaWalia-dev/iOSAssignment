@@ -58,14 +58,11 @@ class FeedsViewModel {
     
     // MARK: - Api Methods
     private func getFeeds(completion: @escaping ()->()) {
-        NetworkManager.shared.getFeeds { [weak self] (feedsData, error)  in
-            guard let data = feedsData else{
-                return
-            }
-            self?.title = data.title ?? "Feeds"
+        NetworkManager.shared.getFeeds { [weak self] (title, error)  in
+            self?.title = title ?? "Feeds"
             self?.originalData.removeAll()
-            if let articles = data.articles {
-                articles.forEach({ article in
+            if let articlesData = DBManager.shared.getDataFromDB() {
+                articlesData.forEach({ article in
                     let articleViewModel = ArticleCellViewModel(data: article)
                     self?.originalData.append(articleViewModel)
                 })
