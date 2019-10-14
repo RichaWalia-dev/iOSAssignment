@@ -22,8 +22,8 @@ class FeedTableViewCell: UITableViewCell {
     
     // MARK:- Public Methods
     func populateCell(articleViewModel: ArticleCellViewModel) {
-        titleLabel.text = articleViewModel.title
-        descriptionLabel.text = articleViewModel.content
+        titleLabel.text = articleViewModel.title ?? Constants.titleNotAvailable
+        descriptionLabel.text = articleViewModel.content ?? Constants.contentNotAvailable
         feedImageView.image = articleViewModel.thumbnail
     }
 }

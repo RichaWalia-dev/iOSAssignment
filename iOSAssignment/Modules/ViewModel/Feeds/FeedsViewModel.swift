@@ -34,7 +34,7 @@ class FeedsViewModel {
     
     // MARK: - Public Methods
     func refreshScreen() {
-        self.getFeeds(completion: { [weak self] in
+        self.getFeeds(shouldRefresh: true, completion: { [weak self] in
             self?.reloadTable()
         })
     }
@@ -57,19 +57,31 @@ class FeedsViewModel {
     }
     
     // MARK: - Api Methods
-    private func getFeeds(completion: @escaping ()->()) {
-        NetworkManager.shared.getFeeds { [weak self] (title, error)  in
-            self?.title = title ?? "Feeds"
-            self?.originalData.removeAll()
-            if let articlesData = DBManager.shared.getDataFromDB() {
-                articlesData.forEach({ article in
-                    let articleViewModel = ArticleCellViewModel(data: article)
-                    self?.originalData.append(articleViewModel)
-                })
-            }
-            self?.sortDataAccordingTo(option: self?.selectedSortOption ?? .date)
-            self?.numberOfRows = self?.originalData.count ?? 0
+    private func getFeeds(shouldRefresh: Bool = false, completion: @escaping ()->()) {
+        if let articlesData = DBManager.shared.getDataFromDB(), articlesData.count > 0, !shouldRefresh {
+            updateFeedsData()
             completion()
+        } else {
+            if shouldRefresh {
+                DBManager.shared.deleteDataFromDb()
+            }
+            NetworkManager.shared.getFeeds { [weak self] (title, error)  in
+                self?.title = title ?? "Feeds"
+                self?.updateFeedsData()
+                completion()
+            }
         }
+    }
+    
+    private func updateFeedsData() {
+        originalData.removeAll()
+        if let articlesData = DBManager.shared.getDataFromDB() {
+            articlesData.forEach({ article in
+                let articleViewModel = ArticleCellViewModel(data: article)
+                originalData.append(articleViewModel)
+            })
+        }
+        sortDataAccordingTo(option: selectedSortOption)
+        numberOfRows = originalData.count
     }
 }

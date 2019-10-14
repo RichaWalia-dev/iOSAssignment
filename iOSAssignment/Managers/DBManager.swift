@@ -11,19 +11,16 @@ import RealmSwift
 
 class DBManager {
     
-    private var database: Realm
     static let shared = DBManager()
     
-    private init() {
-        database = try! Realm()
-    }
-    
     func getDataFromDB() -> Results<Article>? {
+        let database = try! Realm()
         let results: Results<Article> = database.objects(Article.self)
         return results
     }
         
     func addData(feed: Feed, completion: @escaping(_ isSaved: Bool)-> Void) {
+        let database = try! Realm()
         do {
             for article in feed.articles {
                 try database.write {
@@ -34,6 +31,22 @@ class DBManager {
         } catch {
             print("Error: \(error.localizedDescription)")
             completion(false)
+        }
+    }
+    
+    func deleteDataFromDb() {
+        let database = try! Realm()
+        let results: Results<Article> = database.objects(Article.self)
+        if results.count > 0 {
+            results.forEach { article in
+                do {
+                    try database.write {
+                        database.delete(article)
+                    }
+                } catch {
+                    print("Error: \(error.localizedDescription)")
+                }
+            }
         }
     }
 }

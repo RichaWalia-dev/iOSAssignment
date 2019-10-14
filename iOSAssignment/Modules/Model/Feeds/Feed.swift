@@ -12,25 +12,25 @@ import RealmSwift
 
 @objcMembers class Feed: Object, Codable
 {
-    dynamic var title: String = ""
+    dynamic var title: String?
     dynamic var articles = RealmSwift.List<Article>()
 }
 
 @objcMembers class Article: Object, Codable
 {
-    dynamic var title: String = ""
-    dynamic var website: String = ""
-    dynamic var authors: String = ""
-    dynamic var date: String = ""
-    dynamic var content: String = ""
+    dynamic var title: String?
+    dynamic var website: String?
+    dynamic var authors: String?
+    dynamic var date: String?
+    dynamic var content: String?
     dynamic var tags = RealmSwift.List<Tag>()
-    dynamic var imageUrl: String = ""
+    dynamic var imageUrl: String?
 }
 
 @objcMembers class Tag: Object, Codable
 {
     dynamic var id: Int = 0
-    dynamic var label: String = ""
+    dynamic var label: String?
 }
 
 

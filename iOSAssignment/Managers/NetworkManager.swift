@@ -35,13 +35,9 @@ class NetworkManager {
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 do {
                     let feed: Feed = try decoder.decode(Feed.self, from: data)
-                   // DispatchQueue.global(qos: .background).async {
-                        DBManager.shared.addData(feed: feed, completion: { isSaved in
-                           // DispatchQueue.main.async {
-                                completion(feed.title, nil)
-                           // }
-                        })
-                   // }
+                    DBManager.shared.addData(feed: feed, completion: { isSaved in
+                        completion(feed.title, nil)
+                    })
                     
                 } catch {
                     print("JSON error: \(error.localizedDescription)")

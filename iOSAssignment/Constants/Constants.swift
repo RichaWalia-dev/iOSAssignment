@@ -11,6 +11,8 @@ import UIKit
 
 struct Constants {
     static let url = "https://no89n3nc7b.execute-api.ap-southeast-1.amazonaws.com/staging/exercise"
+    static let contentNotAvailable = "Content not available"
+    static let titleNotAvailable = "Title not available"
 }
 
 struct CellIdentifiers {

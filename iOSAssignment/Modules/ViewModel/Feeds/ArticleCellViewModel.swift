@@ -34,6 +34,6 @@ class ArticleCellViewModel {
         authors = dataSource.authors
         content = dataSource.content
         imageUrl = dataSource.imageUrl
-        date = dataSource.date.toDate()
+        date = dataSource.date?.toDate() ?? Date()
     }
 }
